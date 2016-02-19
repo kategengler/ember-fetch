@@ -12,6 +12,7 @@ var server;
 module('Acceptance: Root', {
   beforeEach: function() {
     server = new Pretender();
+    window.FetchTest.responseFns = {};
     application = startApp();
   },
 
@@ -19,6 +20,19 @@ module('Acceptance: Root', {
     server.shutdown();
     Ember.run(application, 'destroy');
   }
+});
+
+test('uses browser fetch if available', function(assert) {
+  var done = assert.async();
+  var originalFetch = window.FetchTest.mockFetch;
+  window.FetchTest.mockFetch = function(url) {
+    assert.equal('/upload-with-window-fetch', url, 'Global fetch should be used');
+    done();
+  };
+
+  fetch('/upload-with-window-fetch');
+
+  window.FetchTest.mockFetch = originalFetch;
 });
 
 test('visiting /', function(assert) {

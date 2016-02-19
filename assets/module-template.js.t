@@ -6,20 +6,23 @@
       self.FormData = global.FormData;
     }
     if (global.FileReader) {
-      self.FileReader = global.FileReader; 
+      self.FileReader = global.FileReader;
     }
     if (global.Blob) {
-      self.Blob = global.Blob; 
+      self.Blob = global.Blob;
     }
-    
+    if (global.fetch) {
+      self.fetch = global.fetch;
+    }
+
     <%= moduleBody %>
-  
+
     self['default'] = self.fetch;
   });
-  
+
   define('fetch/ajax', [ 'fetch', 'exports' ], function(fetch, exports) {
     'use strict';
-  
+
     exports['default'] = function() {
       return fetch['default'].apply(fetch, arguments).then(function(request) {
         return request.json();

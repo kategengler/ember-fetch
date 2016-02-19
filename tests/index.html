@@ -7,6 +7,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script>
+      var FetchTest = {};
+      FetchTest.originalFetch = window.fetch;
+      FetchTest.mockFetch = FetchTest.originalFetch;
+      window.fetch = function(url) {
+        return FetchTest.mockFetch.apply(this, arguments);
+      }
+    </script>
+
     {{content-for 'head'}}
     {{content-for 'test-head'}}
 
